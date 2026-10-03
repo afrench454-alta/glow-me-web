@@ -7,6 +7,7 @@ const NAV = [
   { to: "/about", label: "About" },
   { to: "/skin-range", label: "Skin range" },
   { to: "/contact", label: "Contact" },
+  { to: "/login", label: "Sign in" },
 ] as const;
 
 export function SiteShell({ children }: { children: React.ReactNode }) {
@@ -81,7 +82,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
             {" · "}
             <Link to="/contact">Contact</Link>
             {" · "}
-            <Link to="/desk">Desk</Link>
+            <Link to="/login">Sign in</Link>
           </div>
         </div>
       </footer>
