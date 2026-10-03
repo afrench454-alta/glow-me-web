@@ -467,6 +467,38 @@ textarea[aria-invalid="true"] {
   padding: 40px 0;
 }
 
+.panel {
+  max-width: 34rem;
+  margin: 48px auto 88px;
+  background: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: 28px;
+  box-shadow: var(--shadow-card);
+  padding: 36px 28px 28px;
+}
+
+.panel h1 {
+  font-size: clamp(2.2rem, 4vw, 3.3rem);
+}
+
+.panel .hero-actions {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.desk {
+  padding: 48px 0 88px;
+}
+
+.desk h1 {
+  font-size: clamp(2.2rem, 4vw, 3.3rem);
+}
+
+.form-error {
+  color: #8a2f24;
+  margin: 14px 0 0;
+}
+
 .miss {
   padding: 72px 0 96px;
 }

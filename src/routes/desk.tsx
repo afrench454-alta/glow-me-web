@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { SiteShell } from "@/components/site-shell";
 import { RedirectToSignIn, SignedIn, SignedOut, UserButton } from "@/lib/auth/gates";
 import { prepMessage } from "@/lib/booking-request";
 import { loadDesk, saveShadeNote, setRequestStatus, type DeskRequest } from "@/lib/studio.functions";
@@ -10,27 +11,27 @@ export const Route = createFileRoute("/desk")({
 
 function Desk() {
   return (
-    <main className="wrap miss">
-      <SignedOut>
-        <RedirectToSignIn />
-      </SignedOut>
-      <SignedIn>
-        <DeskBoard />
-      </SignedIn>
-    </main>
+    <SiteShell>
+      <main className="wrap desk">
+        <SignedOut>
+          <RedirectToSignIn />
+        </SignedOut>
+        <SignedIn>
+          <DeskBoard />
+        </SignedIn>
+      </main>
+    </SiteShell>
   );
 }
 
 function DeskBoard() {
   const [requests, setRequests] = useState<DeskRequest[] | null>(null);
   const [allowed, setAllowed] = useState(true);
-  const [role, setRole] = useState<string | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
 
   async function refresh() {
     const result = await loadDesk();
     setAllowed(result.allowed);
-    setRole(result.role);
     setRequests(result.requests);
   }
 
@@ -52,7 +53,9 @@ function DeskBoard() {
     <>
       <p className="kicker">Studio desk</p>
       <h1>Requests</h1>
-      <p className="lede">Booking requests open a client record here. Confirm, then copy the prep text to send.</p>
+      <p className="lede">
+        Booking requests open a client record here. Confirm, then copy the prep text to send.
+      </p>
       <div className="hero-actions">
         <UserButton />
         <Link className="btn ghost" to="/">
@@ -60,7 +63,9 @@ function DeskBoard() {
         </Link>
       </div>
       {requests === null ? <p>Loading requests.</p> : null}
-      {requests?.length === 0 ? <p>No requests yet. They appear when someone uses the booking form.</p> : null}
+      {requests?.length === 0 ? (
+        <p>No requests yet. They appear when someone uses the booking form.</p>
+      ) : null}
       <div className="services">
         {requests?.map((request) => (
           <article className="service" key={request.id}>
@@ -87,17 +92,37 @@ function DeskBoard() {
                 rows={2}
                 defaultValue={request.shadeNote}
                 onBlur={(event) => {
-                  void saveShadeNote({ data: { clientId: request.clientId, shadeNote: event.target.value } });
+                  void saveShadeNote({
+                    data: { clientId: request.clientId, shadeNote: event.target.value },
+                  });
                 }}
               />
               <div className="hero-actions">
-                <button className="btn gold" type="button" onClick={() => void setRequestStatus({ data: { id: request.id, status: "confirmed" } }).then(refresh)}>
+                <button
+                  className="btn gold"
+                  type="button"
+                  onClick={() =>
+                    void setRequestStatus({ data: { id: request.id, status: "confirmed" } }).then(refresh)
+                  }
+                >
                   Confirm
                 </button>
-                <button className="btn" type="button" onClick={() => void setRequestStatus({ data: { id: request.id, status: "done" } }).then(refresh)}>
+                <button
+                  className="btn"
+                  type="button"
+                  onClick={() =>
+                    void setRequestStatus({ data: { id: request.id, status: "done" } }).then(refresh)
+                  }
+                >
                   Done
                 </button>
-                <button className="btn ghost" type="button" onClick={() => void setRequestStatus({ data: { id: request.id, status: "declined" } }).then(refresh)}>
+                <button
+                  className="btn ghost"
+                  type="button"
+                  onClick={() =>
+                    void setRequestStatus({ data: { id: request.id, status: "declined" } }).then(refresh)
+                  }
+                >
                   Decline
                 </button>
                 <button
