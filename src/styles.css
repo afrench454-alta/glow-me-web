@@ -498,8 +498,9 @@ textarea[aria-invalid="true"] {
   color: #8a2f24;
   margin: 14px 0 0;
 }
-  color: #8a2f24;
-  margin: 14px 0 0;
+
+.miss {
+  padding: 72px 0 96px;
 }
 
 @media (max-width: 860px) {
